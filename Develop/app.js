@@ -14,6 +14,49 @@ employees = [];
 
 function addEmployee(){
 
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "What type of team member would you like to add?",
+            choices: ["Manager", "Engeneer", "Intern"],
+            name: "role"
+
+        },
+        {
+            type: "input",
+            message: "What is the employee's name?",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is the employee's id number?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is the employee's email address?",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "What is the managers office phone number?",
+            name: "officeNumber",
+            when: (answer) => answer.role === "Manager"
+        },
+        {
+            type: "input",
+            message: "What is the engineer's github username?",
+            name: "github",
+            when: (answer) => answer.role === "Engineer"
+        },
+        {
+            type: "input",
+            message: "What is the intern's school name?",
+            name: "school",
+            when: (answer) => answer.role === "Intern"
+        }
+
+    ])
 }
 
 
