@@ -56,8 +56,13 @@ function addEmployee(){
             when: (answer) => answer.role === "Intern"
         }
 
-    ])
+    ]).then(function(response){
+
+        console.log(response.role);
+    })
 }
+
+addEmployee();
 
 
 
