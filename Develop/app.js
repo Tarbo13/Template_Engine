@@ -10,7 +10,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-employees = [];
+
+let employeeArr = [];
+
 
 function addEmployee(){
 
@@ -18,8 +20,8 @@ function addEmployee(){
         {
             type: "list",
             message: "What type of team member would you like to add?",
-            choices: ["Manager", "Engeneer", "Intern"],
-            name: "role"
+            name: "role",
+            choices: ["Manager", "Engineer", "Intern",]           
 
         },
         {
@@ -29,8 +31,13 @@ function addEmployee(){
         },
         {
             type: "input",
+            name: "id",
             message: "What is the employee's id number?",
-            name: "id"
+            validate(value) {
+                const valid = !isNaN(parseFloat(value));
+                return valid || "Please enter an number";
+            }
+           
         },
         {
             type: "input",
@@ -41,7 +48,12 @@ function addEmployee(){
             type: "input",
             message: "What is the managers office phone number?",
             name: "officeNumber",
-            when: (answer) => answer.role === "Manager"
+            when: (answer) => answer.role === "Manager",
+            validate(value) {
+                const valid = !isNaN(parseFloat(value));
+                return valid || "Please enter a number";              
+            },
+            
         },
         {
             type: "input",
@@ -54,11 +66,46 @@ function addEmployee(){
             message: "What is the intern's school name?",
             name: "school",
             when: (answer) => answer.role === "Intern"
+        }, 
+        {
+            type: "list",
+            message: "Would you like to add another employee?",
+            name: "continue",
+            choices: ["yes", "no"]            
         }
 
     ]).then(function(response){
-
         console.log(response.role);
+        console.log(response.continue);
+
+            if (response.role === "Manager") {
+            let manager = new Manager(response.name, response.id, response.email, response.officeNumber);            
+            employeeArr.push(manager);
+            
+
+        }   if(response.role === "Engineer") {
+            let engineer = new Engineer(response.name, response.id, response.email, response.github);
+            employeeArr.push(engineer);
+            
+        }
+
+            if(response.role === "Intern") {
+            let intern = new Intern(response.name, response.id, response.email, response.school);
+            employeeArr.push(intern);
+            
+            }
+
+            if(response.continue === "yes") {
+                addEmployee();
+            } else 
+                    
+        fs.writeFile(outputPath, render(employeeArr), function(err){
+            if (err){
+                console.log(err);
+            }
+                console.log("Your employee infomation has been saved");                        
+        })
+            
     })
 }
 
