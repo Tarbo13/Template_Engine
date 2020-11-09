@@ -10,12 +10,12 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
+// Array to store employee information
 let employeeArr = [];
 
-
+// Function to get data for team.html
 function addEmployee(){
-
+    // inquirer prompt to generate employee questions
     inquirer.prompt([
         {
             type: "list",
@@ -36,8 +36,7 @@ function addEmployee(){
             validate(value) {
                 const valid = !isNaN(parseFloat(value));
                 return valid || "Please enter an number";
-            }
-           
+            }           
         },
         {
             type: "input",
@@ -52,8 +51,7 @@ function addEmployee(){
             validate(value) {
                 const valid = !isNaN(parseFloat(value));
                 return valid || "Please enter a number";              
-            },
-            
+            },            
         },
         {
             type: "input",
@@ -73,11 +71,12 @@ function addEmployee(){
             name: "continue",
             choices: ["yes", "no"]            
         }
-
+        // calling for response data
     ]).then(function(response){
         // console.log(response.role);
         // console.log(response.continue);
 
+        // Functions to build team cards
         function buildMGR(){
             let manager = new Manager(response.name, response.id, response.emial, response.officeNumber);
             employeeArr.push(manager);
@@ -93,7 +92,7 @@ function addEmployee(){
                 response.id, response.email, response.school);
                 employeeArr.push(intern);
         }
-
+        // Calling team card functions
         if (response.role === "Manager"){
             buildMGR();
         }
@@ -106,7 +105,7 @@ function addEmployee(){
         if (response.continue === "yes") {
             addEmployee();
         } else       
-                    
+        // Writing data to HTML file    
         fs.writeFile(outputPath, render(employeeArr), function(err){
             if (err){
                 console.log(err);
@@ -116,7 +115,7 @@ function addEmployee(){
             
     })
 }
-
+// Call function to generate employee questions
 addEmployee();
 
 
