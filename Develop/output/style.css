@@ -1,0 +1,25 @@
+.container-fluid {
+    background-color: black;
+}
+
+.card-header {
+    background-color: #070607;
+    color: #f1bee2;
+}
+
+.team-heading {
+    background-image: linear-gradient(#f23ebc, #070607);
+    color: white;
+}
+
+.card {
+    border: 1px solid;
+    box-shadow: 5px 5px 8px black, 10px 10px 8px #f23ebc, 15px 15px #ecc7e1;
+    margin-left: 20px;
+    margin-top: 25px;
+}
+
+h1 {
+    font-family: fantasy;
+    text-decoration: underline;
+}
